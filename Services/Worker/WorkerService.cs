@@ -6,6 +6,9 @@
 using Library.Network;
 using Library.Network.Teller;
 
+using libc.hwid;
+
+
 namespace Worker.Services;
 
 public class WorkerService
@@ -23,7 +26,7 @@ public class WorkerService
 
     internal void Authenticate()
     {
-        Worker.Authenticate();
+        Worker.Authenticate(HwId.Generate());
     }
 
     internal void Listen()

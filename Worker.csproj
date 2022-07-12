@@ -8,11 +8,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <AvaloniaXaml Remove="ThirdParty\**" />
+    <Compile Remove="ThirdParty\**" />
+    <Content Remove="ThirdParty\**" />
+    <EmbeddedResource Remove="ThirdParty\**" />
+    <None Remove="ThirdParty\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="libc.hwid" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Library\Library.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="UHWID">
+      <HintPath>ThirdParty\csharp-uhwid\UHWID\bin\Debug\UHWID.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
