@@ -1,0 +1,3 @@
+[submodule "ThirdParty/csharp-uhwid"]
+	path = ThirdParty/csharp-uhwid
+	url = https://github.com/davcs86/csharp-uhwid
