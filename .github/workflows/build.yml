@@ -46,15 +46,22 @@ jobs:
       working-directory: ./Worker
       run: dotnet publish -c Release -r ${{ matrix.architecture }} --self-contained true /p:UseAppHost=true
 
-
-    - name: LS
-      working-directory: ./Worker
-      run: ls
-
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
         name: ${{ matrix.architecture }} Release
         path: .\Worker\bin\Release\net6.0\${{ matrix.architecture }}\publish
 
+    - name: Create release
+      uses: Roang-zero1/github-create-release-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Create GitHub release
+      uses: Roang-zero1/github-upload-release-artifacts-action@master
+      with:
+        args:
+        - .\Worker\bin\Release\net6.0\${{ matrix.architecture }}\publish
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
