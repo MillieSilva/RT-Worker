@@ -53,8 +53,8 @@ jobs:
         path: .\Worker\bin\Release\net6.0\${{ matrix.architecture }}\publish
 
     - name: Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: .\Worker\bin\Release\net6.0\${{ matrix.architecture }}\publish
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: .\Worker\bin\Release\net6.0\${{ matrix.architecture }}\publish
 
