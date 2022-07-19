@@ -52,16 +52,9 @@ jobs:
         name: ${{ matrix.architecture }} Release
         path: .\Worker\bin\Release\net6.0\${{ matrix.architecture }}\publish
 
-    - name: Create release
-      uses: Roang-zero1/github-create-release-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Create GitHub release
-      uses: Roang-zero1/github-upload-release-artifacts-action@master
-      with:
-        args:
-        - .\Worker\bin\Release\net6.0\${{ matrix.architecture }}\publish
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: .\Worker\bin\Release\net6.0\${{ matrix.architecture }}\publish
 
