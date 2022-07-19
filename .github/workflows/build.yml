@@ -43,7 +43,7 @@ jobs:
     - name: Restore dependencies
       working-directory: ./Worker
       run: |
-        git submodule init --update
+        git submodule update --init
         dotnet restore
 
     - name: Build
