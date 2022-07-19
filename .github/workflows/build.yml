@@ -46,11 +46,14 @@ jobs:
       working-directory: ./Worker
       run: dotnet publish -c Release -r ${{ matrix.architecture }} --self-contained true /p:UseAppHost=true
 
+
+    - name: LS
+        run: ls
+
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
         name: ${{ matrix.architecture }} Release
-        working-directory: ./Worker
-        path: \bin\Release\net6.0\${{ matrix.architecture }}\publish
+        path: .\Worker\bin\Release\net6.0\${{ matrix.architecture }}\publish
 
 
