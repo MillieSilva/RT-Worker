@@ -48,6 +48,7 @@ jobs:
 
 
     - name: LS
+      working-directory: ./Worker
       run: ls
 
     - name: Upload build artifacts
