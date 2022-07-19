@@ -20,10 +20,18 @@ jobs:
       Solution_Name: Worker.sln
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+    - uses: actions/checkout@v3
       with:
-        fetch-depth: 0
+        repository: MillieSilva/RT-DeskLib
+        ref: main
+        ssh-key: ${{ secrets.DESKLIB_KEY }}
+        path: Library
+
+    - uses: actions/checkout@v3
+      with:
+        repository: MillieSilva/RT-Wprker
+        ref: main
+        path: Worker
 
     - name: Install .NET Core
       uses: actions/setup-dotnet@v2
@@ -31,13 +39,16 @@ jobs:
         dotnet-version: 6.0.x
 
     - name: Restore dependencies
+      working-directory: ./Worker
       run: dotnet restore
 
     - name: Build Publish
+      working-directory: ./Worker
       run: dotnet publish -c Release -r ${{ matrix.architecture }} --self-contained true /p:UseAppHost=true
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
+      working-directory: ./Worker
       with:
         name: ${{ matrix.architecture }} Release
         path: bin/Release/net6.0/${{ matrix.architecture }}/publish/
