@@ -3,7 +3,7 @@
 
 
 ## Building
-First fetch the third party dependencies by doing
+Clone the repository then fetch the third party dependencies by doing
 > git submodule update --init
 
 Then build using `dotnet build` or visual studio
