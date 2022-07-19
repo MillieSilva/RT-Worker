@@ -48,9 +48,9 @@ jobs:
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
-      working-directory: ./Worker
       with:
         name: ${{ matrix.architecture }} Release
+        working-directory: ./Worker
         path: bin/Release/net6.0/${{ matrix.architecture }}/publish/
 
 
