@@ -17,9 +17,9 @@ public class WorkerService
 
     public void Start()
     {
-        Worker = new(new ConnectionInfo
+        Worker = new TellerWorker(new ConnectionInfo
         {
-            IPv4 = "127.0.0.1",
+            IPv4 = Constants.ResolveWorkerServerAddress(),
             Port = Constants.DefaultWorkerServerPort
         });
     }
