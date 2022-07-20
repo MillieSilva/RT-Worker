@@ -22,18 +22,22 @@ jobs:
       Solution_Name: Worker.sln
 
     steps:
-    - uses: actions/checkout@v3
+
+    - name: Checkout Worker
+      uses: actions/checkout@v3
+      with:
+        repository: MillieSilva/RT-Worker
+        ref: main
+        path: Worker
+
+    - name: Checkout DeskLib
+      uses: actions/checkout@v3
       with:
         repository: MillieSilva/RT-DeskLib
         ref: main
         ssh-key: ${{ secrets.DESKLIB_KEY }}
         path: Library
 
-    - uses: actions/checkout@v3
-      with:
-        repository: MillieSilva/RT-Worker
-        ref: main
-        path: Worker
 
     - name: Install .NET Core
       uses: actions/setup-dotnet@v2
