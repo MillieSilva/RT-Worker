@@ -12,7 +12,6 @@ jobs:
 
     strategy:
       matrix:
-        #architecture: [win-x64, linux-x64]
         architecture: [win-x64]
 
 
@@ -27,17 +26,16 @@ jobs:
       uses: actions/checkout@v3
       with:
         repository: MillieSilva/RT-Worker
-        ref: main
+        ref: ${{ github.head_ref }}
         path: Worker
 
     - name: Checkout DeskLib
       uses: actions/checkout@v3
       with:
         repository: MillieSilva/RT-DeskLib
-        ref: main
+        ref: ${{ github.head_ref }}
         ssh-key: ${{ secrets.DESKLIB_KEY }}
         path: Library
-
 
     - name: Install .NET Core
       uses: actions/setup-dotnet@v2
