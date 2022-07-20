@@ -48,18 +48,6 @@ jobs:
         git submodule update --init
         dotnet restore
 
-    #- name: Build
-    #  working-directory: ./Worker
-    #  run: dotnet build -c Release --no-restore
-
-    #- name: Upload build artifacts
-    #  uses: actions/upload-artifact@v3
-    #  with:
-    #    name: ${{ matrix.architecture }} Release
-    #    #path: .\Worker\bin\Release\net6.0\${{ matrix.architecture }}\publish
-    #    path: .\Worker\bin\Release\net6.0\
-
-
     - name: Build Publish
       working-directory: ./Worker
       run: dotnet publish Worker.csproj -c Release -r ${{ matrix.architecture }} --self-contained=true -p:PublishSingleFile=true
@@ -69,7 +57,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: worker.${{ matrix.architecture }}.release
-        path: .\Worker\bin\Release\net6.0\${{ matrix.architecture }}\publish
+        path: ./Worker/bin/Release/net6.0/${{ matrix.architecture }}/publish
 
     #- name: Release
     #  uses: softprops/action-gh-release@v1
