@@ -1,3 +1,5 @@
+[![Build](https://github.com/MillieSilva/RT-Worker/actions/workflows/build.yml/badge.svg)](https://github.com/MillieSilva/RT-Worker/actions/workflows/build.yml)
+
 # RT Worker
  Worker service for Remote Teller
 

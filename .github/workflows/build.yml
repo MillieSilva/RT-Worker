@@ -22,18 +22,22 @@ jobs:
       Solution_Name: Worker.sln
 
     steps:
-    - uses: actions/checkout@v3
+
+    - name: Checkout Worker
+      uses: actions/checkout@v3
+      with:
+        repository: MillieSilva/RT-Worker
+        ref: main
+        path: Worker
+
+    - name: Checkout DeskLib
+      uses: actions/checkout@v3
       with:
         repository: MillieSilva/RT-DeskLib
         ref: main
         ssh-key: ${{ secrets.DESKLIB_KEY }}
         path: Library
 
-    - uses: actions/checkout@v3
-      with:
-        repository: MillieSilva/RT-Worker
-        ref: main
-        path: Worker
 
     - name: Install .NET Core
       uses: actions/setup-dotnet@v2
@@ -46,31 +50,32 @@ jobs:
         git submodule update --init
         dotnet restore
 
-    - name: Build
-      working-directory: ./Worker
-      run: dotnet build -c Release --no-restore
-
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: ${{ matrix.architecture }} Release
-        #path: .\Worker\bin\Release\net6.0\${{ matrix.architecture }}\publish
-        path: .\Worker\bin\Release\net6.0\
-
-
-    #- name: Build Publish
+    #- name: Build
     #  working-directory: ./Worker
-    #  run: dotnet publish -c Release -r ${{ matrix.architecture }} --self-contained true /p:UseAppHost=true
+    #  run: dotnet build -c Release --no-restore
 
     #- name: Upload build artifacts
     #  uses: actions/upload-artifact@v3
     #  with:
     #    name: ${{ matrix.architecture }} Release
-    #    path: .\Worker\bin\Release\net6.0\${{ matrix.architecture }}\publish
+    #    #path: .\Worker\bin\Release\net6.0\${{ matrix.architecture }}\publish
+    #    path: .\Worker\bin\Release\net6.0\
 
-    #- name: Release
-    #  uses: softprops/action-gh-release@v1
-    #  if: startsWith(github.ref, 'refs/tags/')
-    #  with:
-    #    files: .\Worker\bin\Release\net6.0\${{ matrix.architecture }}\publish
+
+    - name: Build Publish
+      working-directory: ./Worker
+      run: dotnet publish Worker.csproj -c Release -r ${{ matrix.architecture }} --self-contained=true -p:PublishSingleFile=true
+      #-p:PublishReadyToRun=true -p:UseAppHost=true
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ matrix.architecture }} Release
+        path: .\Worker\bin\Release\net6.0\${{ matrix.architecture }}\publish
+
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: .\Worker\bin\Release\net6.0\${{ matrix.architecture }}\publish
 
