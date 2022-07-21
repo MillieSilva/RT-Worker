@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        architecture: [linux-x64]
+        architecture: [linux-x64, debian-x64]
 
 
     runs-on: macos-latest
