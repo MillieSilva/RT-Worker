@@ -53,12 +53,6 @@ jobs:
       run: dotnet publish Worker.csproj -c Release -r ${{ matrix.architecture }} --self-contained=true -p:PublishSingleFile=true
       #-p:PublishReadyToRun=true -p:UseAppHost=true
 
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: worker.${{ matrix.architecture }}.release
-        path: ./Worker/bin/Release/net6.0/${{ matrix.architecture }}/publish
-
     - name: Tar build artifacts
       run: tar -cvf worker.${{ matrix.architecture }}.release.tar ./Worker/bin/Release/net6.0/${{ matrix.architecture }}/publish
 
