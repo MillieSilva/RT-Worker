@@ -53,17 +53,16 @@ jobs:
       run: dotnet publish Worker.csproj -c Release -r ${{ matrix.architecture }} --self-contained=true -p:PublishSingleFile=true
       #-p:PublishReadyToRun=true -p:UseAppHost=true
 
-    #- name: Test Windows Service
-    #  run: |
-    #    sc create "Remote Teller Worker Service" binPath=".\Worker\bin\Release\net6.0\${{ matrix.architecture }}\publish\Worker.exe"
-
-    #    sc start "Remote Teller Worker Service"
+    - name: Move service installer to artifacts
+      working-directory: ./Worker
+      run: mv .\Scripts\service.bat .\bin\Release\net6.0\${{ matrix.architecture }}\publish\service.bat
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
         name: worker.${{ matrix.architecture }}.release
         path: .\Worker\bin\Release\net6.0\${{ matrix.architecture }}\publish
+
 
     #- name: Release
     #  uses: softprops/action-gh-release@v1
