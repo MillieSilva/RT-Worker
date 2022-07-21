@@ -1,0 +1,60 @@
+name: Build
+
+on:
+  push:
+    branches: [ "main", "development" ]
+  pull_request:
+    branches: [ "main", "development" ]
+
+jobs:
+
+  build:
+
+    strategy:
+      matrix:
+        architecture: [linux-x64, debian-x64]
+
+
+    runs-on: macos-latest
+
+    env:
+      Solution_Name: Worker.sln
+
+    steps:
+
+    - name: Checkout Worker
+      uses: actions/checkout@v3
+      with:
+        repository: MillieSilva/RT-Worker
+        ref: ${{ github.head_ref }}
+        path: Worker
+
+    - name: Checkout DeskLib
+      uses: actions/checkout@v3
+      with:
+        repository: MillieSilva/RT-DeskLib
+        ref: ${{ github.head_ref }}
+        ssh-key: ${{ secrets.DESKLIB_KEY }}
+        path: Library
+
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 6.0.x
+
+    - name: Restore dependencies
+      working-directory: ./Worker
+      run: |
+        git submodule update --init
+        dotnet restore
+
+    - name: Build Publish
+      working-directory: ./Worker
+      run: dotnet publish Worker.csproj -c Release -r ${{ matrix.architecture }} --self-contained=true -p:PublishSingleFile=true
+      #-p:PublishReadyToRun=true -p:UseAppHost=true
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: worker.${{ matrix.architecture }}.release
+        path: ./Worker/bin/Release/net6.0/${{ matrix.architecture }}/publish
