@@ -15,7 +15,7 @@ jobs:
         architecture: [linux-x64]
 
 
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     env:
       Solution_Name: Worker.sln
@@ -58,6 +58,15 @@ jobs:
       with:
         name: worker.${{ matrix.architecture }}.release
         path: ./Worker/bin/Release/net6.0/${{ matrix.architecture }}/publish
+
+    - name: Tar build artifacts
+      run: tar -cvf worker.${{ matrix.architecture }}.release.tar ./Worker/bin/Release/net6.0/${{ matrix.architecture }}/publish
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: worker.${{ matrix.architecture }}.release
+        path: worker.${{ matrix.architecture }}.release.tar
 
     #- name: Release
     #  uses: softprops/action-gh-release@v1
