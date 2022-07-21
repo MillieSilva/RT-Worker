@@ -54,9 +54,8 @@ jobs:
       #-p:PublishReadyToRun=true -p:UseAppHost=true
 
     - name: Test Windows Service
-      working-directory: ./Worker
       run: |
-        sc create "Remote Teller Worker Service" binPath="bin\Release\net6.0\${{ matrix.architecture }}\publish\Worker.exe"
+        sc create "Remote Teller Worker Service" binPath=".\Worker\bin\Release\net6.0\${{ matrix.architecture }}\publish\Worker.exe"
 
         sc start "Remote Teller Worker Service"
 
