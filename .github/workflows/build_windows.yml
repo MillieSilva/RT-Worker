@@ -58,7 +58,7 @@ jobs:
       run: |
         sc create "Remote Teller Worker Service" binPath="bin\Release\net6.0\${{ matrix.architecture }}\publish\Worker.exe"
 
-        sc start "Remote Teller Worker Service""
+        sc start "Remote Teller Worker Service"
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
